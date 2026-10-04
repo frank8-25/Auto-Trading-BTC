@@ -1,0 +1,13 @@
+.env
+.env.*
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+reports/
+logs/
+*.log
+*state*.json
+*trade_history*
+*position_events*
+.DS_Store
