@@ -1,13 +1,13 @@
-<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><title>自動交易自主研究｜備審初稿</title><style>@page{size:A4;margin:0}*{box-sizing:border-box}body{margin:0;background:#e8edf0;color:#233c4c;font-family:"Microsoft JhengHei","Noto Sans TC",sans-serif}.page{width:210mm;height:297mm;padding:16mm 18mm 15mm;background:white;margin:8mm auto;position:relative;overflow:hidden}.eyebrow{font-size:10px;letter-spacing:1.5px;color:#597784;border-top:4px solid #28536b;padding-top:12px}h1{font-size:27px;line-height:1.35;margin:14px 0 8px;letter-spacing:.5px}h2{font-size:15px;margin:16px 0 6px;color:#245d74}p{font-size:12.5px;line-height:1.8;margin:6px 0}.lead{font-size:13px;color:#597784;margin-bottom:17px}.note{font-size:10px;line-height:1.65;color:#627681;margin-top:14px}.metric{display:flex;gap:18px;align-items:center;background:#eef5f5;border-left:4px solid #467e87;padding:13px;margin:14px 0}.metric strong{font-size:19px;white-space:nowrap}.metric span{font-size:10.5px;line-height:1.7}svg{width:100%;height:auto;margin:10px 0}table{border-collapse:collapse;width:100%;font-size:11.5px;margin:10px 0}th,td{text-align:left;border-bottom:1px solid #dce5e9;padding:5px 10px}th{background:#eef3f6}td:last-child{width:60px}.callout{background:#eef5ed;padding:12px;font-size:11.5px;line-height:1.8;margin-top:14px}footer{position:absolute;bottom:9mm;left:18mm;right:18mm;display:flex;justify-content:space-between;font-size:9px;color:#78909c;border-top:1px solid #dce5e9;padding-top:6px}@media print{body{background:white}.page{margin:0;break-after:page}.page:last-child{break-after:auto}}</style></head><body><section class="page"><div class="eyebrow">自主研究成果摘要 · 備審初稿 · 2026.10</div>
-<h1>自動交易與跨市場訊號分析<br>系統之自主研究</h1>
-<p class="lead">將交易想法轉為明確規則，建立可追蹤、可解釋、可驗證的研究流程。</p>
-<h2>研究問題</h2><p>市場上的熱門標的，是否同時具備合適的進場條件？本專案從自動交易研究出發，將行情取得、技術指標、訊號判斷與風險管理拆成不同模組，探索如何降低主觀解讀，並讓每次判斷留下可查核的依據。</p>
-<h2>目前完成的系統</h2>
-<p><b>跨市場掃描：</b>整合台股、美股與加密貨幣候選資料，以趨勢、價格波動及成交量計算熱度，另以獨立規則判斷突破買進、回檔止穩或持續觀察，輸出原因及歷次報告比較。</p>
-<p><b>交易與風險模組：</b>建立 Binance 期貨的 EMA 趨勢與交叉訊號判斷，提供測試網及正式盤入口；部位計算納入資金限制、停損距離，以及費用與滑價預估，並設有持倉和成交紀錄。</p>
-<p><b>驗證機制：</b>保留報告快照，針對資料異常、訊號條件、候選來源與排程進行測試；另具備獨立回測工具。市場掃描僅提供分析參考，不直接觸發下單。</p>
-<h2>代表性改進：從「再觀察」追查規則缺口</h2>
-<p>2026 年 9 月 30 日的報告中，80 個候選有 64 個列為再觀察、16 個列為減碼／賣出，沒有買進候選。檢查後發現：原規則僅涵蓋突破進場，未實作回檔止穩與加碼情境。因此保留突破門檻，新增以連續日 K、均線與量能確認的回檔規則，並將加碼標示為需另確認持倉風險的候選。</p>
-<div class="metric"><strong>28 項測試通過</strong><span>2026.10.04 重跑：訊號建議、候選來源、排程三組測試。<br>代表指定程式行為符合測試預期，不代表策略具有獲利能力。</span></div>
-<h2>研究收穫與後續方向</h2><p>此案例呈現從輸出異常追查規則、區分資料問題與模型限制，再以測試驗證修正的過程。下一步將比較新舊規則在不同期間的表現，納入交易成本、最大回撤與樣本外驗證，評估訊號品質，而非只追求更多買進提示。</p>
-<p class="note">協作方式：本專案使用 AI 輔助程式修改與測試；本人提出研究需求與輸出疑問。各項設計、實作及驗證的實際分工，將於送件前補充確認。本摘要不主張已證實超額報酬。</p><footer><span>自主研究｜自動交易與市場訊號分析</span><span>01 / 01</span></footer></section></body></html>
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><title>備審成長線｜自動交易研究歷程</title><style>@page{size:A4;margin:0}*{box-sizing:border-box}body{margin:0;background:#edf0f1;color:#24343c;font-family:"Microsoft JhengHei",sans-serif}.page{width:210mm;min-height:297mm;height:297mm;margin:8mm auto;background:#fff;padding:15mm 18mm 18mm;position:relative}.eyebrow{font-size:10px;color:#61757b;border-top:3px solid #345d66;padding-top:10px;letter-spacing:1px}h1{font-size:25px;line-height:1.45;margin:13px 0 18px}h2{font-size:15px;line-height:1.5;color:#315c66;margin:14px 0 5px}p{font-size:14px;line-height:1.82;margin:7px 0;text-align:justify}footer{position:absolute;bottom:9mm;left:18mm;right:18mm;border-top:1px solid #d9e1e2;padding-top:6px;display:flex;justify-content:space-between;color:#788a90;font-size:9px}@media print{body{background:white}.page{margin:0;break-after:page}.page:last-child{break-after:auto}}</style></head><body><section class="page"><div class="eyebrow">備審成長線 · 自動交易自主研究 · 2026.10</div><h1>從交易規則開始，逐步補齊系統</h1><h2>我目前在做的研究</h2>
+<p>我正在研究以 Python 實作自動交易，並把市場掃描、交易規則、部位管理與紀錄整理放在同一個專案中。目前交易模組以 Binance 期貨為對象，市場觀察則延伸到台股、美股及加密貨幣。這份成果整理的是系統如何逐步補齊，以及每項修改處理了什麼問題；目前還沒有足夠證據把它稱為一套已驗證有效的獲利策略。</p>
+<h2>把「偏多、偏空」寫成可以執行的條件</h2>
+<p>現有策略先用已收盤的 1 小時 K 線，以 EMA20 與 EMA60 判斷方向，再用 15 分鐘 K 線的 EMA5／EMA20 交叉作為進場訊號。兩者方向一致才接受訊號。這樣做讓每次進場都有明確條件，也方便日後檢查某筆交易為什麼發生。</p>
+<p>但寫出交叉條件只是其中一部分。程式會反覆檢查行情，因此還要記住同一根 K 線的訊號是否已交易，避免重複開倉；價格離均線太遠時也先跳過。測試網與正式盤使用分開的紀錄，讓測試資料不會和正式紀錄混在一起。這些是目前程式已具備的處理，不代表都已完成長期實盤驗證。</p>
+<h2>研究範圍逐漸擴大</h2>
+<p>專案裡的改進不只在進場條件。9 月 24 日的修改紀錄，重點是「平倉後如何正確記帳」與「下一筆還能承擔多少風險」；之後在使用 Hot Market 報告時，我又提出另一個問題：為什麼大部分標的都顯示再觀察，而且沒有加碼選項？這讓修改從交易執行延伸到分析結果是否容易理解。</p>
+<p>因此，我希望教授看到的不只是程式有多少功能，而是每個問題如何被拆開處理：先確認交易訊號，再核對成交與成本，接著限制部位風險，最後檢查報告是不是完整表達了規則。下面兩頁會說明其中幾個具體改進。</p>
+<h2>目前留下的成果</h2>
+<p>專案已有行情與指標計算、EMA 交易訊號、部位與停損計算、成交對帳、市場掃描及歷次報告比較；另外建置獨立回測工具。GitHub 展示版提供掃描程式、離線合成範例、相關測試與系統流程圖，方便讀者先重現其中一部分。</p>
+<p>完整專案於 2026 年 10 月 5 日重跑 38 項單元測試通過；GitHub 展示版收錄其中的掃描相關兩組，共 20 項。這些數字表示指定情境下的程式行為通過檢查，不能用來推論勝率或收益。</p>
+<h2>開發方式</h2>
+<p>我提出研究需求與使用時遇到的問題，使用 AI 協助檢查程式、修改與測試。這份文件依現有程式和修改紀錄整理；不將整個專案描述為完全獨立手寫的作品，也不把沒有留下紀錄的經歷寫成既定事實。</p><footer><span>從現有程式、修改紀錄與使用問題整理</span><span>01 / 01</span></footer></section></body></html>

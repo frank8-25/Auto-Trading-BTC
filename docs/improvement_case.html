@@ -1,8 +1,25 @@
-<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><title>自動交易自主研究｜備審初稿</title><style>@page{size:A4;margin:0}*{box-sizing:border-box}body{margin:0;background:#e8edf0;color:#233c4c;font-family:"Microsoft JhengHei","Noto Sans TC",sans-serif}.page{width:210mm;height:297mm;padding:16mm 18mm 15mm;background:white;margin:8mm auto;position:relative;overflow:hidden}.eyebrow{font-size:10px;letter-spacing:1.5px;color:#597784;border-top:4px solid #28536b;padding-top:12px}h1{font-size:27px;line-height:1.35;margin:14px 0 8px;letter-spacing:.5px}h2{font-size:15px;margin:16px 0 6px;color:#245d74}p{font-size:12.5px;line-height:1.8;margin:6px 0}.lead{font-size:13px;color:#597784;margin-bottom:17px}.note{font-size:10px;line-height:1.65;color:#627681;margin-top:14px}.metric{display:flex;gap:18px;align-items:center;background:#eef5f5;border-left:4px solid #467e87;padding:13px;margin:14px 0}.metric strong{font-size:19px;white-space:nowrap}.metric span{font-size:10.5px;line-height:1.7}svg{width:100%;height:auto;margin:10px 0}table{border-collapse:collapse;width:100%;font-size:11.5px;margin:10px 0}th,td{text-align:left;border-bottom:1px solid #dce5e9;padding:5px 10px}th{background:#eef3f6}td:last-child{width:60px}.callout{background:#eef5ed;padding:12px;font-size:11.5px;line-height:1.8;margin-top:14px}footer{position:absolute;bottom:9mm;left:18mm;right:18mm;display:flex;justify-content:space-between;font-size:9px;color:#78909c;border-top:1px solid #dce5e9;padding-top:6px}@media print{body{background:white}.page{margin:0;break-after:page}.page:last-child{break-after:auto}}</style></head><body><section class="page"><div class="eyebrow">改進案例 · 問題 → 分析 → 修改 → 驗證</div><h1>為什麼熱門標的<br>大多只得到「再觀察」？</h1>
-<h2>01｜從實際輸出提出問題</h2><p>2026.09.30 06:00 報告：80 個候選中，64 個再觀察（80%）、16 個減碼／賣出、0 個買進候選。研究問題是：這是行情未達標，還是系統沒有涵蓋使用者期待的決策情境？</p>
-<table><tr><th>再觀察原因（依當時規則分類）</th><th>數量</th></tr><tr><td>偏多，但尚未突破前高</td><td>28</td></tr><tr><td>偏多，但離均線過遠</td><td>19</td></tr><tr><td>偏多，但價格跌回均線下方</td><td>7</td></tr><tr><td>偏空，價格正在反彈</td><td>9</td></tr><tr><td>已突破，但量能或波動條件未通過</td><td>1</td></tr></table>
-<h2>02｜追查原因</h2><p>原買進規則要求趨勢偏多、突破前 20 日高點、量比達標，且價格不能過度遠離均線。熱門標的可能因漲幅過大而被排除；同時，原程式沒有回檔止穩進場規則，持有多單的提示也沒有加碼分支。因此不能把「沒有加碼提示」解讀為系統已評估過所有加碼機會。</p>
-<h2>03｜保留原門檻，補齊決策情境</h2><p><b>突破買進：</b>保留原有量能與防追高條件。<br><b>回檔止穩：</b>近三根日 K 有下跌日觸及 EMA20，再由本日收盤突破昨日高點；另檢查本日收紅、均線上升、量能及距離。<br><b>持有多單：</b>進場成立時列為加碼候選，但必須另確認原倉浮盈、停損及加碼後總風險。報告新增候選摘要，規則版本由 1 升為 2。</p>
-<h2>04｜驗證結果與研究界線</h2><p>重跑三組測試共 28 項，全部通過。案例涵蓋回檔訊號、突破訊號、量能不足、資料過期及缺漏、未收盤、歷史高低點排除當根日 K，以及報告產生與排程行為。缺少新版欄位的舊資料不會被推定為回檔候選。</p>
-<div class="callout"><b>已證實：</b>新增情境可依規則分類，指定異常情況不會誤列買進／加碼候選。<br><b>尚未證實：</b>新規則是否提升報酬、降低回撤或改善實際進場品質；本案例未提供修改後的績效比較。</div>
-<p class="note">方法上的收穫：從可觀察的輸出提出假設，回到程式與資料確認原因，再以明確條件和測試約束修改；後續以包含成本的歷史回測與樣本外資料比較新舊規則。</p><footer><span>自主研究｜自動交易與市場訊號分析</span><span>01 / 01</span></footer></section></body></html>
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><title>備審成長線｜自動交易研究歷程</title><style>@page{size:A4;margin:0}*{box-sizing:border-box}body{margin:0;background:#edf0f1;color:#24343c;font-family:"Microsoft JhengHei",sans-serif}.page{width:210mm;min-height:297mm;height:297mm;margin:8mm auto;background:#fff;padding:15mm 18mm 18mm;position:relative}.eyebrow{font-size:10px;color:#61757b;border-top:3px solid #345d66;padding-top:10px;letter-spacing:1px}h1{font-size:25px;line-height:1.45;margin:13px 0 18px}h2{font-size:15px;line-height:1.5;color:#315c66;margin:14px 0 5px}p{font-size:14px;line-height:1.82;margin:7px 0;text-align:justify}footer{position:absolute;bottom:9mm;left:18mm;right:18mm;border-top:1px solid #d9e1e2;padding-top:6px;display:flex;justify-content:space-between;color:#788a90;font-size:9px}@media print{body{background:white}.page{margin:0;break-after:page}.page:last-child{break-after:auto}}</style></head><body><section class="page"><div class="eyebrow">備審成長線 · 自動交易自主研究 · 2026.10</div><h1>先把成交與風險算清楚</h1><h2>觸發平倉的價格，不一定是成交價格</h2>
+<p>9 月 24 日的改進紀錄中，一項重要修正是平倉記帳的依據。程式看到價格符合條件、決定送出平倉單，和交易所最後實際成交，是不同的事件。如果直接用觸發當下的價格計算，就可能把尚未確定的結果寫成已實現損益。</p>
+<p>修改後，紀錄使用交易所回報的成交均價與成交數量。尚未取得完整成交結果的訂單先保留，等後續循環或重啟時再對帳，並用訂單和交易對避免重複寫入。測試也包含部分成交，以及寫入後發生中斷再重試的情況。帳還沒對清楚時，暫停開新倉，但既有部位仍繼續管理。</p>
+<p>這項修改處理的是紀錄可信度。不能因為程式有寫出一個損益數字，就認為它已經正確反映實際交易。</p>
+<h2>把毛利、手續費與資金費分開</h2>
+<p>平倉價差得到的毛利，還沒有包含所有成本。目前另外整理交易所帳戶期間的已實現損益、手續費與資金費，並排除轉帳等非交易收益。資料取不到時，會標示無法取得，而不是填入 0；否則「沒有資料」很容易被誤認為「沒有損失」。</p>
+<p>這裡仍有界線：帳戶期間的現金流可能包含手動交易，不能直接說是機器人每筆交易的淨利。延遲入帳、費用幣別及程式中斷也都需要另外處理。把這些差異保留在紀錄裡，比只給一個總收益數字更有助於後續分析。</p>
+<h2>下一筆部位要看今天還剩多少額度</h2>
+<p>風控原本就有單筆風險與每日虧損限制，但兩個限制必須一起作用。現在下一筆可用風險會取「單筆額度」和「當日剩餘虧損額度」較小者，再估算下單量。部位計算同時預留停損距離、雙邊費用與滑價緩衝。</p>
+<p>例如用假設數字說明：每日可承受損失是 200，當天已虧 150，雖然單筆上限是 100，下一筆也只能以剩下的 50 計算部位。這只是規則的算術示例，不是我的帳戶紀錄。若換算後低於最小下單量，就跳過交易；不會為了成交而放大部位。</p>
+<h2>用失敗情境檢查修改</h2>
+<p>相關測試不只檢查正常下單量，也檢查每日額度已用完、交易所資料失敗、成交價缺漏、部分成交、重複對帳與最小下單量等情況。另外，平倉紀錄失敗時，仍要執行殘留部位檢查，避免記帳問題讓部位管理被跳過。</p>
+<p>這部分讓研究範圍從「訊號是否成立」延伸到「資料不完整時該怎麼做」。但估算風險仍可能被跳空或超額滑價突破；通過測試也不代表所有執行情境都已被涵蓋。</p><footer><span>從現有程式、修改紀錄與使用問題整理</span><span>01 / 02</span></footer></section><section class="page"><div class="eyebrow">備審成長線 · 自動交易自主研究 · 2026.10</div><h1>讓報告能回答問題，再檢查策略是否有效</h1><h2>從看交易訊號，延伸到整理市場</h2>
+<p>Hot Market 將自選名單與台美股動態榜單整理成候選，再計算趨勢、量能及波動。它不是全市場排名，也不會直接把熱門標的加入下單清單。每次掃描保留一份快照，比較前後方向、價格與建議，讓使用者能回頭查看變化。</p>
+<h2>我提出的問題：為什麼幾乎都在等？</h2>
+<p>9 月 30 日的報告有 80 個候選，其中 64 個顯示再觀察、16 個顯示減碼／賣出，沒有買進候選。我當時提出「為什麼再觀察這麼多，而且沒有加碼選項」，接著檢查報告與程式。</p>
+<p>64 個再觀察中，28 個尚未突破前高，19 個離均線太遠，7 個跌回均線下方，9 個是偏空反彈，另 1 個未通過量能或波動條件。這說明熱門不等於適合立刻進場；另一方面，原本的程式也確實沒有回檔止穩與加碼分支。沒有顯示某種建議，可能只是系統還沒實作那個情境。</p>
+<h2>補上情境，而不是只把門檻調鬆</h2>
+<p>修改時保留原本的突破、量能及防追高門檻，另外加入回檔止穩：近期下跌日觸及均線後，本日收盤突破昨日高點，再檢查均線方向、量能與價格距離。這讓未突破區間高點的標的，也有一套明確條件可供判斷，而不是只靠「感覺回檔差不多了」。</p>
+<p>符合進場條件時，持有多單者會看到加碼候選，但仍須另確認原倉浮盈、停損與總風險。掃描器不讀取實際持倉，所以不會宣稱已替使用者完成這些檢查。新版也保留舊報告並標記規則版本，避免把規則改變誤認成行情改變。</p>
+<h2>接下來要回答：修改真的有幫助嗎？</h2>
+<p>目前測試確認的是規則分類與資料異常處理。專案另外有獨立回測工具及 Freqtrade 基準策略環境，將歷史資料測試與交易執行分開；已有相關指令與檢查流程，但這份備審沒有足夠的完整結果，可以主張新規則優於舊規則。</p>
+<p>後續要用相同期間和候選資料比較新舊版本，分開調整參數與驗證的資料區間，並納入交易成本、最大回撤及不同市場狀態。尤其不能只比較買進訊號是否變多：訊號變多之後，可能只是增加交易成本，未必改善結果。</p>
+<h2>這份研究還在進行</h2>
+<p>目前能清楚呈現的是：交易條件已具體化，成交紀錄與風險額度有了更完整的處理，分析報告也逐步補上使用時發現的缺口。下一步需要把這些修改放到一致的驗證方式下比較，才知道哪些值得保留，哪些還要重做。</p><footer><span>從現有程式、修改紀錄與使用問題整理</span><span>02 / 02</span></footer></section></body></html>
