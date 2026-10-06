@@ -1,16 +1,16 @@
-<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><title>備審成長線｜自動交易研究歷程</title><style>@page{size:A4;margin:0}*{box-sizing:border-box}body{margin:0;background:#edf0f1;color:#24343c;font-family:"Microsoft JhengHei",sans-serif}.page{width:210mm;min-height:297mm;height:297mm;margin:8mm auto;background:#fff;padding:15mm 18mm 18mm;position:relative}.eyebrow{font-size:10px;color:#61757b;border-top:3px solid #345d66;padding-top:10px;letter-spacing:1px}h1{font-size:25px;line-height:1.45;margin:13px 0 18px}h2{font-size:15px;line-height:1.5;color:#315c66;margin:14px 0 5px}p{font-size:14px;line-height:1.82;margin:7px 0;text-align:justify}footer{position:absolute;bottom:9mm;left:18mm;right:18mm;border-top:1px solid #d9e1e2;padding-top:6px;display:flex;justify-content:space-between;color:#788a90;font-size:9px}@media print{body{background:white}.page{margin:0;break-after:page}.page:last-child{break-after:auto}}</style></head><body><section class="page"><div class="eyebrow">備審成長線 · 自動交易自主研究 · 2026.10</div><h1>從交易規則開始，逐步補齊系統</h1><h2>我目前在做的研究</h2>
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><title>專案紀錄｜自動交易研究歷程</title><style>@page{size:A4;margin:0}*{box-sizing:border-box}body{margin:0;background:#edf0f1;color:#24343c;font-family:"Microsoft JhengHei",sans-serif}.page{width:210mm;min-height:297mm;height:297mm;margin:8mm auto;background:#fff;padding:15mm 18mm 18mm;position:relative}.eyebrow{font-size:10px;color:#61757b;border-top:3px solid #345d66;padding-top:10px;letter-spacing:1px}h1{font-size:25px;line-height:1.45;margin:13px 0 18px}h2{font-size:15px;line-height:1.5;color:#315c66;margin:14px 0 5px}p{font-size:14px;line-height:1.82;margin:7px 0;text-align:justify}footer{position:absolute;bottom:9mm;left:18mm;right:18mm;border-top:1px solid #d9e1e2;padding-top:6px;display:flex;justify-content:space-between;color:#788a90;font-size:9px}@media print{body{background:white}.page{margin:0;break-after:page}.page:last-child{break-after:auto}}</style></head><body><section class="page"><div class="eyebrow">專案紀錄 · 自動交易研究</div><h1>從交易規則開始，逐步補齊系統</h1><h2>我目前在做的研究</h2>
 <p>我正在研究以 Python 實作自動交易，並把市場掃描、交易規則、部位管理與紀錄整理放在同一個專案中。目前交易模組以 Binance 期貨為對象，市場觀察則延伸到台股、美股及加密貨幣。這份成果整理的是系統如何逐步補齊，以及每項修改處理了什麼問題；目前還沒有足夠證據把它稱為一套已驗證有效的獲利策略。</p>
 <h2>把「偏多、偏空」寫成可以執行的條件</h2>
 <p>現有策略先用已收盤的 1 小時 K 線，以 EMA20 與 EMA60 判斷方向，再用 15 分鐘 K 線的 EMA5／EMA20 交叉作為進場訊號。兩者方向一致才接受訊號。這樣做讓每次進場都有明確條件，也方便日後檢查某筆交易為什麼發生。</p>
 <p>但寫出交叉條件只是其中一部分。程式會反覆檢查行情，因此還要記住同一根 K 線的訊號是否已交易，避免重複開倉；價格離均線太遠時也先跳過。測試網與正式盤使用分開的紀錄，讓測試資料不會和正式紀錄混在一起。這些是目前程式已具備的處理，不代表都已完成長期實盤驗證。</p>
 <h2>研究範圍逐漸擴大</h2>
-<p>專案裡的改進不只在進場條件。9 月 24 日的修改紀錄，重點是「平倉後如何正確記帳」與「下一筆還能承擔多少風險」；之後在使用 Hot Market 報告時，我又提出另一個問題：為什麼大部分標的都顯示再觀察，而且沒有加碼選項？這讓修改從交易執行延伸到分析結果是否容易理解。</p>
-<p>因此，我希望教授看到的不只是程式有多少功能，而是每個問題如何被拆開處理：先確認交易訊號，再核對成交與成本，接著限制部位風險，最後檢查報告是不是完整表達了規則。下面兩頁會說明其中幾個具體改進。</p>
+<p>留下的報告能看出幾個變化：2026 年 6 月 25 日已有市場熱度排名與技術指標，8 月 9 日的報告已加入白話結論與上期排名。9 月 24 日的修改則集中在成交記帳與每日風險額度。到了 9 月 30 日，我又針對 Hot Market 提出疑問：為什麼大部分標的都是再觀察，而且沒有加碼選項？這些問題讓交易執行和市場分析持續有需要補齊的地方。</p>
+<p>這份紀錄除了整理現有功能，也說明每個問題如何被拆開處理：先確認交易訊號，再核對成交與成本，接著限制部位風險，最後檢查報告是不是完整表達了規則。下面兩頁會說明其中幾個具體改進。</p>
 <h2>目前留下的成果</h2>
 <p>專案已有行情與指標計算、EMA 交易訊號、部位與停損計算、成交對帳、市場掃描及歷次報告比較；另外建置獨立回測工具。GitHub 展示版提供掃描程式、離線合成範例、相關測試與系統流程圖，方便讀者先重現其中一部分。</p>
-<p>完整專案於 2026 年 10 月 5 日重跑 38 項單元測試通過；GitHub 展示版收錄其中的掃描相關兩組，共 20 項。這些數字表示指定情境下的程式行為通過檢查，不能用來推論勝率或收益。</p>
+<p>完整專案的 38 項單元測試已通過；GitHub 展示版收錄其中的掃描相關兩組，共 20 項。這些數字表示指定情境下的程式行為通過檢查，不能用來推論勝率或收益。</p>
 <h2>開發方式</h2>
-<p>我提出研究需求與使用時遇到的問題，使用 AI 協助檢查程式、修改與測試。這份文件依現有程式和修改紀錄整理；不將整個專案描述為完全獨立手寫的作品，也不把沒有留下紀錄的經歷寫成既定事實。</p><footer><span>從現有程式、修改紀錄與使用問題整理</span><span>01 / 03</span></footer></section><section class="page"><div class="eyebrow">備審成長線 · 自動交易自主研究 · 2026.10</div><h1>先把成交與風險算清楚</h1><h2>觸發平倉的價格，不一定是成交價格</h2>
+<p>我提出研究需求與使用時遇到的問題，使用 AI 協助檢查程式、修改與測試。這份文件依現有程式和修改紀錄整理；不將整個專案描述為完全獨立手寫的作品，也不把沒有留下紀錄的經歷寫成既定事實。</p><footer><span>從現有程式、修改紀錄與使用問題整理</span><span>01 / 03</span></footer></section><section class="page"><div class="eyebrow">專案紀錄 · 自動交易研究</div><h1>先把成交與風險算清楚</h1><h2>觸發平倉的價格，不一定是成交價格</h2>
 <p>9 月 24 日的改進紀錄中，一項重要修正是平倉記帳的依據。程式看到價格符合條件、決定送出平倉單，和交易所最後實際成交，是不同的事件。如果直接用觸發當下的價格計算，就可能把尚未確定的結果寫成已實現損益。</p>
 <p>修改後，紀錄使用交易所回報的成交均價與成交數量。尚未取得完整成交結果的訂單先保留，等後續循環或重啟時再對帳，並用訂單和交易對避免重複寫入。測試也包含部分成交，以及寫入後發生中斷再重試的情況。帳還沒對清楚時，暫停開新倉，但既有部位仍繼續管理。</p>
 <p>這項修改處理的是紀錄可信度。不能因為程式有寫出一個損益數字，就認為它已經正確反映實際交易。</p>
@@ -22,7 +22,7 @@
 <p>例如用假設數字說明：每日可承受損失是 200，當天已虧 150，雖然單筆上限是 100，下一筆也只能以剩下的 50 計算部位。這只是規則的算術示例，不是我的帳戶紀錄。若換算後低於最小下單量，就跳過交易；不會為了成交而放大部位。</p>
 <h2>用失敗情境檢查修改</h2>
 <p>相關測試不只檢查正常下單量，也檢查每日額度已用完、交易所資料失敗、成交價缺漏、部分成交、重複對帳與最小下單量等情況。另外，平倉紀錄失敗時，仍要執行殘留部位檢查，避免記帳問題讓部位管理被跳過。</p>
-<p>這部分讓研究範圍從「訊號是否成立」延伸到「資料不完整時該怎麼做」。但估算風險仍可能被跳空或超額滑價突破；通過測試也不代表所有執行情境都已被涵蓋。</p><footer><span>從現有程式、修改紀錄與使用問題整理</span><span>02 / 03</span></footer></section><section class="page"><div class="eyebrow">備審成長線 · 自動交易自主研究 · 2026.10</div><h1>讓報告能回答問題，再檢查策略是否有效</h1><h2>從看交易訊號，延伸到整理市場</h2>
+<p>這部分讓研究範圍從「訊號是否成立」延伸到「資料不完整時該怎麼做」。但估算風險仍可能被跳空或超額滑價突破；通過測試也不代表所有執行情境都已被涵蓋。</p><footer><span>從現有程式、修改紀錄與使用問題整理</span><span>02 / 03</span></footer></section><section class="page"><div class="eyebrow">專案紀錄 · 自動交易研究</div><h1>讓報告能回答問題，再檢查策略是否有效</h1><h2>從看交易訊號，延伸到整理市場</h2>
 <p>Hot Market 將自選名單與台美股動態榜單整理成候選，再計算趨勢、量能及波動。它不是全市場排名，也不會直接把熱門標的加入下單清單。每次掃描保留一份快照，比較前後方向、價格與建議，讓使用者能回頭查看變化。</p>
 <h2>我提出的問題：為什麼幾乎都在等？</h2>
 <p>9 月 30 日的報告有 80 個候選，其中 64 個顯示再觀察、16 個顯示減碼／賣出，沒有買進候選。我當時提出「為什麼再觀察這麼多，而且沒有加碼選項」，接著檢查報告與程式。</p>
@@ -31,7 +31,7 @@
 <p>修改時保留原本的突破、量能及防追高門檻，另外加入回檔止穩：近期下跌日觸及均線後，本日收盤突破昨日高點，再檢查均線方向、量能與價格距離。這讓未突破區間高點的標的，也有一套明確條件可供判斷，而不是只靠「感覺回檔差不多了」。</p>
 <p>符合進場條件時，持有多單者會看到加碼候選，但仍須另確認原倉浮盈、停損與總風險。掃描器不讀取實際持倉，所以不會宣稱已替使用者完成這些檢查。新版也保留舊報告並標記規則版本，避免把規則改變誤認成行情改變。</p>
 <h2>接下來要回答：修改真的有幫助嗎？</h2>
-<p>目前測試確認的是規則分類與資料異常處理。專案另外有獨立回測工具及 Freqtrade 基準策略環境，將歷史資料測試與交易執行分開；已有相關指令與檢查流程，但這份備審沒有足夠的完整結果，可以主張新規則優於舊規則。</p>
+<p>目前測試確認的是規則分類與資料異常處理。專案另外有獨立回測工具及 Freqtrade 基準策略環境，將歷史資料測試與交易執行分開；已有相關指令與檢查流程，但目前還沒有足夠的完整結果，可以主張新規則優於舊規則。</p>
 <p>後續要用相同期間和候選資料比較新舊版本，分開調整參數與驗證的資料區間，並納入交易成本、最大回撤及不同市場狀態。尤其不能只比較買進訊號是否變多：訊號變多之後，可能只是增加交易成本，未必改善結果。</p>
 <h2>這份研究還在進行</h2>
 <p>目前能清楚呈現的是：交易條件已具體化，成交紀錄與風險額度有了更完整的處理，分析報告也逐步補上使用時發現的缺口。下一步需要把這些修改放到一致的驗證方式下比較，才知道哪些值得保留，哪些還要重做。</p><footer><span>從現有程式、修改紀錄與使用問題整理</span><span>03 / 03</span></footer></section></body></html>
