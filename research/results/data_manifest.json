@@ -1,0 +1,11 @@
+{
+  "source": "https://fapi.binance.com",
+  "start": "2025-09-20 00:00:00+00:00",
+  "end_exclusive": "2026-10-05 00:00:00+00:00",
+  "candles": 36480,
+  "funding_events": 1140,
+  "sha256": {
+    "btc_15m.csv": "f2014ff41aaa0ecdab426d37cc8103cf47e6c5faf47b504c60aa09fbbb97ed69",
+    "funding.csv": "13adfd11df04f91edc06f656d5f9f4a7878f74334a4c31b956ce1afc402dadea"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "accepted_candidates": [],
+  "live_deployment": false,
+  "explanation": "Historical comparison is not prospective evidence. No automatic deployment.",
+  "criteria": "Both validation and historical_check, base and doubled costs: >=30 trades, positive return, PF>1.1, drawdown<=baseline."
+}

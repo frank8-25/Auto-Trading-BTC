@@ -11,3 +11,6 @@ logs/
 *trade_history*
 *position_events*
 .DS_Store
+research/data/
+research/results/*_trades.csv
+research/results/*_equity.csv

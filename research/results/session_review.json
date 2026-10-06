@@ -1,0 +1,19 @@
+{
+  "session_start": "2026-09-28 12:39:07",
+  "session_end": "2026-10-04 18:22:46.509794",
+  "environment": "TESTNET",
+  "trades": 14,
+  "gross_wins": 5,
+  "gross_losses": 9,
+  "gross_win_rate_pct": 35.714285714285715,
+  "gross_profit_factor": 0.8373938722775933,
+  "exit_counts": {
+    "EMA_EXIT": 9,
+    "TAKE_PROFIT": 5
+  },
+  "gross_result": "negative",
+  "account_net_result": "negative",
+  "commission_share_of_account_net_loss_pct": 79.59075685694931,
+  "gross_journal_vs_account_difference": 0.0239,
+  "caveat": "Account income may include other activity; rounded trade journal is gross, not per-trade net."
+}
