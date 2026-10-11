@@ -1,0 +1,19 @@
+{
+  "snapshot_sha256": {
+    "btc_15m.csv": "d70e52f45d0604e93deccb8fe3e86861f4c79c25728063c432aaf7594d67e800",
+    "funding.csv": "6c5acbc9446bb721ae96785bdea085527f2b33bb9169a4eafb7be2bc307b7e05"
+  },
+  "horizons_minutes": [
+    15,
+    30,
+    60
+  ],
+  "development_atr_fraction_median": 0.00334804675802387,
+  "fee_per_side": 0.0005,
+  "slippage_per_side": 0.00025,
+  "bootstrap_seed": 20261011,
+  "bootstrap_repetitions": 2000,
+  "bootstrap_block_days": 7,
+  "historical_exploration": true,
+  "live_deployment": false
+}
