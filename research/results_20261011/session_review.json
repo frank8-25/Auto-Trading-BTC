@@ -1,0 +1,40 @@
+{
+  "session_start": "2026-10-06 17:12:12",
+  "session_end": "2026-10-11 21:25:54.787551",
+  "environment": "TESTNET",
+  "trades": 7,
+  "gross_wins": 3,
+  "gross_losses": 4,
+  "gross_win_rate_pct": 42.857142857142854,
+  "gross_profit_factor": 1.9875233936369305,
+  "exit_counts": {
+    "EMA_EXIT": 4,
+    "TAKE_PROFIT": 3
+  },
+  "gross_result": "nonnegative",
+  "account_net_result": "negative",
+  "commission_share_of_account_net_loss_pct": 422.10366985024706,
+  "gross_journal_vs_account_difference": 0.0016,
+  "caveat": "Account income may include other activity; rounded trade journal is gross, not per-trade net.",
+  "open_events": 8,
+  "close_events": 7,
+  "ending_position": "long",
+  "ending_position_observed_at": "2026-10-11 21:25:46",
+  "closed_trades_per_active_day": 1.3523461166008457,
+  "open_position_included_in_realized_pnl": false,
+  "unclosed_event_positions": 1,
+  "exit_diagnostics": {
+    "EMA_EXIT": {
+      "count": 4,
+      "mean_holding_minutes": 157.6375,
+      "reached_sampled_015pct": 2
+    },
+    "TAKE_PROFIT": {
+      "count": 3,
+      "mean_holding_minutes": 79.84444444444445,
+      "reached_sampled_015pct": 3
+    }
+  },
+  "commission_to_positive_account_gross_pct": 130.64350656447886,
+  "account_cost_scope": "Includes entry fees for any unclosed position and possibly other account activity; not a closed-trade net allocation."
+}

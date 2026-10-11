@@ -16,6 +16,9 @@ class Variant:
     name: str
     adx_min: float = 0
     atr_exit: bool = False
+    target_fraction: float = 0.003
+    exit_confirmation: int = 1
+    entry_mode: str = 'ema'
 
 
 VARIANTS = [Variant('baseline'), Variant('adx25', 25), Variant('adx25_atr', 25, True)]
@@ -72,6 +75,17 @@ def features(candles):
         raise ValueError('Invalid OHLC range')
     f['ema5'] = f.close.ewm(span=5, adjust=False, min_periods=5).mean()
     f['ema20'] = f.close.ewm(span=20, adjust=False, min_periods=20).mean()
+    f['ema_side'] = np.sign(f.ema5-f.ema20)
+    f['ema_side_previous'] = f.ema_side.shift(1)
+    delta=f.close.diff()
+    gain=wilder(delta.clip(lower=0));loss=wilder(-delta.clip(upper=0))
+    f['rsi']=100-100/(1+gain/loss.replace(0,np.nan))
+    f.loc[(loss==0)&(gain>0),'rsi']=100
+    f.loc[(loss==0)&(gain==0),'rsi']=50
+    middle=f.close.rolling(20).mean();std=f.close.rolling(20).std(ddof=0)
+    lower=middle-2*std;upper=middle+2*std
+    f['range_signal']=np.select([(f.close.shift(1)<lower.shift(1))&(f.close>=lower)&(f.rsi<45),
+                                (f.close.shift(1)>upper.shift(1))&(f.close<=upper)&(f.rsi>55)], [1,-1],default=0)
     f['atr'], _ = volatility(f)
     f['cross'] = np.select([(f.ema5>f.ema20)&(f.ema5.shift(1)<=f.ema20.shift(1)),
                             (f.ema5<f.ema20)&(f.ema5.shift(1)>=f.ema20.shift(1))], [1,-1], default=0)
@@ -89,6 +103,10 @@ def features(candles):
 
 
 def entry_side(signal, variant, execution_price):
+    if variant.entry_mode=='range':
+        if not np.isfinite(signal['adx']) or signal['adx']>=25:
+            return 0
+        return int(signal['range_signal'])
     side = int(signal['cross'])
     if not side or signal['bias'] != side:
         return 0
@@ -103,12 +121,20 @@ def entry_side(signal, variant, execution_price):
 
 def distances(signal, variant, price):
     if not variant.atr_exit:
-        return 0.005, 0.003
+        return 0.005, variant.target_fraction
     raw = 1.5 * signal['atr'] / price
     if not np.isfinite(raw) or raw > 0.01:
         return None  # Don't silently clip a volatile market to an undersized stop.
     stop = max(0.003, raw)
     return stop, 2*stop
+
+
+def signal_exit(signal, side, variant):
+    if variant.entry_mode=='range':
+        return 'RSI_MID_EXIT' if side*(signal['rsi']-50)>=0 else None
+    if variant.exit_confirmation==2:
+        return 'EMA_CONFIRMED_EXIT' if signal['ema_side']==-side and signal['ema_side_previous']==-side else None
+    return 'EMA_EXIT' if signal['cross']==-side else None
 
 
 def barrier_exit(side, entry, stop_fraction, target_fraction, bar):
@@ -171,8 +197,8 @@ def run(candles, signals, funding, variant, start, end, cost_factor=1):
                                dict(open=bar['open'],high=bar['open'],low=bar['open']))
             if gap:
                 close(gap[0], when, gap[1]); exited=True
-            elif signal and signal['cross']==-position['side']:
-                close(bar['open'],when,'EMA_EXIT')  # Aligned reversal can open at this same timestamp.
+            elif signal and (reason:=signal_exit(signal,position['side'],variant)):
+                close(bar['open'],when,reason)  # Aligned reversal can open at this same timestamp.
         if not position and not exited and signal and cash>0:
             side=entry_side(signal,variant,bar['open'])
             distance=distances(signal,variant,bar['open'])

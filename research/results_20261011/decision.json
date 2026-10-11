@@ -1,0 +1,47 @@
+{
+  "candidate_results": {
+    "adx25": {
+      "accepted": false,
+      "failed_windows": [
+        "validation/cost1",
+        "validation/cost2",
+        "historical_check/cost1",
+        "historical_check/cost2"
+      ]
+    },
+    "target45": {
+      "accepted": false,
+      "failed_windows": [
+        "validation/cost1",
+        "validation/cost2",
+        "historical_check/cost1",
+        "historical_check/cost2"
+      ]
+    },
+    "exit_confirm2": {
+      "accepted": false,
+      "failed_windows": [
+        "validation/cost1",
+        "validation/cost2",
+        "historical_check/cost1",
+        "historical_check/cost2"
+      ]
+    },
+    "bb_rsi_range": {
+      "accepted": false,
+      "failed_windows": [
+        "validation/cost1",
+        "validation/cost2",
+        "historical_check/cost1",
+        "historical_check/cost2"
+      ]
+    }
+  },
+  "live_deployment": false,
+  "frequency_band": [
+    0.75,
+    1.25
+  ],
+  "new_period_is_diagnostic": true,
+  "criteria": "validation and historical_check at both costs: positive return, PF>1.1, trades>=30, 75%-125% baseline trade count, drawdown<=baseline"
+}

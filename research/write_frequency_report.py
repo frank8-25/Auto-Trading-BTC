@@ -1,0 +1,71 @@
+"""Build the dated public journal from aggregate, reproducible research results."""
+from pathlib import Path
+import json
+import pandas as pd
+
+ROOT=Path(__file__).resolve().parent
+data=pd.read_csv(ROOT/'results_20261011/comparison.csv')
+session=json.loads((ROOT/'results_20261011/session_review.json').read_text())
+names={'baseline':'EMA 基準','adx25':'上次 ADX 過濾','target45':'停利改0.45%',
+       'exit_confirm2':'EMA反向確認兩根','bb_rsi_range':'布林＋RSI震盪候選'}
+
+text='''# 2026-10-11｜扣費後仍虧損，這次加入交易頻率限制
+
+## 本次紀錄的範圍
+
+檢查的是 2026-10-06 17:12 至 10-11 21:25 的測試網 session（本機時間），不是正式盤。共有8次開倉、7次平倉，最後一次監控仍顯示多單。停止程式不等於平倉；這裡只說明最後記錄的狀態，不代表已重新向交易所查詢目前部位。
+
+已平倉7筆中，3筆停利、4筆EMA反向出場，毛利勝率42.86%，毛利Profit Factor約1.99，毛利合計為正；同期帳戶淨現金流則為負。手續費約為帳戶已實現毛利的130.64%，足以侵蝕當期已實現毛利。但帳戶費用也包含尚未平倉部位的進場成本，可能還有其他活動，因此不能把這個數字直接分攤成7筆交易的淨利。
+
+這一輪已平倉頻率約每天1.35筆，8次開倉約每天1.55筆。4筆EMA出場平均持有約158分鐘，3筆停利平均約80分鐘。EMA出場的4筆中，有2筆在分鐘取樣中曾浮盈至少0.15%；這是後續觀察線索，不足以證明加入保本停損一定有利。
+
+## 這次列出的修改方案
+
+| 修改 | 要處理的問題 | 本次狀態 |
+|---|---|---|
+| 停利從0.3%改0.45% | 增加一次成功交易可容納的成本空間；保持原進場和停損 | 已實作研究版本，未採用 |
+| EMA反向連續兩根已收盤K線才退出 | 檢查單次交叉是否太容易造成來回出場；硬停損不延後 | 已實作研究版本，未採用 |
+| 布林通道回帶＋RSI、限定ADX<25 | 比較較適合震盪假設的替代進場；不假定它一定較好 | 已實作研究版本，結果較差 |
+| 上次ADX版本延伸觀察 | 檢查少交易的改善是否仍存在，並量化頻率差異 | 頻率仍過低，未採用 |
+| 分開記錄已平倉、未平倉與帳戶費用範圍 | 避免只看session摘要就認為全部交易已結束 | 已加入本次診斷輸出 |
+
+沒有同時把停利、出場確認都改掉；兩個版本分開比較，才看得出各自影響。所有候選維持相同模擬風險額度，沒有提高槓桿或放寬停損換取績效。
+
+## 相似頻率下的歷史比較
+
+這次將相似頻率明確定為同區間基準交易數的75%–125%，而不是僅因都使用15分鐘K線就算相似。以下為2026/07/01–09/27，基本成本下的標準化模擬；所有金額以獨立的10,000模擬資金起算，報酬不是實際帳戶結果。
+
+| 版本 | 交易數 | 相對頻率 | 淨報酬 | 收盤最大回撤 |
+|---|---:|---:|---:|---:|
+'''
+for row in data[(data.window=='historical_check')&(data.cost_factor==1)].itertuples():
+    text+=f'| {names[row.variant]} | {row.trades} | {row.frequency_ratio:.1%} | {row.return_pct:+.2f}% | {row.max_close_drawdown_pct:.2f}% |\n'
+text+='''
+停利0.45%及兩根確認的交易頻率接近基準，也有小幅減少虧損；但驗證區間及成本加倍情境仍沒有正報酬。布林＋RSI版本的交易數較多、虧損較大，不符合這次要求。ADX的回撤較低，但交易數只有基準約三成，不能把它說成同頻率下找到的更好策略。
+
+## 新增期間觀察
+
+以下為2026/10/05 00:00–10/11 13:15 UTC，基本成本下的模擬。它比實際session更早開始，資料源是公開行情，且區間結束會強制平倉；實際session還有部位，因此交易數與實際7筆平倉不相同。這段已被用來發現問題，不能再宣稱是新候選的獨立樣本外驗證。
+
+| 版本 | 交易數 | 每週換算交易數 | 淨報酬 |
+|---|---:|---:|---:|
+'''
+for row in data[(data.window=='new_period')&(data.cost_factor==1)].itertuples():
+    text+=f'| {names[row.variant]} | {row.trades} | {row.trades_per_week:.2f} | {row.return_pct:+.2f}% |\n'
+text+='''
+完整四段期間、兩組成本共40種情境，均保留在[比較表](../research/results_20261011/comparison.csv)，包含不利結果。前次資料快照及10/6的結果保留不覆寫。
+
+## 採用決定
+
+**目前沒有找到同時滿足相似頻率與含成本表現條件的候選，因此不修改正在執行的交易策略。** 研究版本已留存，不能把「少虧一點」說成已改善成可獲利策略。採用判斷可查看[decision.json](../research/results_20261011/decision.json)。
+
+後續先累積每笔成交費用歸屬與未平倉狀態，並在未見資料觀察0.45%停利及兩根確認的影子訊號；這是待辦方向，本次沒有啟動長駐影子程序。保本停損可以另立研究，但不根據這兩筆曾浮盈的交易事後選門檻。7筆樣本無法支持把某一側交易永久關閉、判定某時段有效，或直接調高部位。
+
+來源及重現方式見[研究方法](../research/FREQUENCY_REVIEW.md)。參考[Fidelity RSI](https://www.fidelity.com/learning-center/trading-investing/technical-analysis/technical-indicator-guide/RSI)與[布林通道說明](https://www.fidelity.com/learning-center/trading-investing/technical-analysis/technical-indicator-guide/bollinger-bands)，僅作指標用途依據，沒有將網路上的技術分析介紹當作獲利證明。
+
+公開內容只有去識別彙總、研究程式和公開行情快照，不含帳戶餘額、訂單編號、原始交易或監控紀錄。
+'''
+destination=ROOT.parent/'docs/strategy_review_20261011.md'
+destination.parent.mkdir(parents=True,exist_ok=True)
+destination.write_text(text.replace('每笔','每筆'),encoding='utf-8')
+print('Wrote',destination.name)

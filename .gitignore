@@ -14,3 +14,5 @@ logs/
 research/data/
 research/results/*_trades.csv
 research/results/*_equity.csv
+research/data_20261011/
+research/results_20261011/*_trades.csv
