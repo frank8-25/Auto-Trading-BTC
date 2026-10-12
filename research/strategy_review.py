@@ -154,7 +154,7 @@ def barrier_exit(side, entry, stop_fraction, target_fraction, bar):
     return None
 
 
-def run(candles, signals, funding, variant, start, end, cost_factor=1):
+def run(candles, signals, funding, variant, start, end, cost_factor=1, policy=None):
     start, end = pd.Timestamp(start, tz='UTC'), pd.Timestamp(end, tz='UTC')
     bars = candles[(candles.index>=start)&(candles.index<end)]
     if bars.empty:
@@ -178,6 +178,8 @@ def run(candles, signals, funding, variant, start, end, cost_factor=1):
         trades.append(dict(entry_time=p['time'],exit_time=when,side=p['side'],
                            gross=gross,fees=p['entry_fee']+exit_fee,funding=p['funding'],
                            net=gross-p['entry_fee']-exit_fee+p['funding'],reason=reason))
+        if policy is not None:
+            trades[-1].update(entry_regime=p['entry_regime'], branch=p['branch'])
         position=None
 
     for when, bar in zip(bars.index, bars.to_dict('records')):
@@ -197,11 +199,12 @@ def run(candles, signals, funding, variant, start, end, cost_factor=1):
                                dict(open=bar['open'],high=bar['open'],low=bar['open']))
             if gap:
                 close(gap[0], when, gap[1]); exited=True
-            elif signal and (reason:=signal_exit(signal,position['side'],variant)):
+            elif signal and (reason:=(policy.exit_reason(signal,position,when) if policy is not None
+                                      else signal_exit(signal,position['side'],variant))):
                 close(bar['open'],when,reason)  # Aligned reversal can open at this same timestamp.
         if not position and not exited and signal and cash>0:
-            side=entry_side(signal,variant,bar['open'])
-            distance=distances(signal,variant,bar['open'])
+            side=policy.entry(signal,bar['open']) if policy is not None else entry_side(signal,variant,bar['open'])
+            distance=policy.distance(signal,bar['open']) if policy is not None else distances(signal,variant,bar['open'])
             remaining=max(0.0,day_start*0.02+min(daily_net,0))
             budget=min(cash*0.01,remaining)
             if side and distance and budget>0:
@@ -213,6 +216,8 @@ def run(candles, signals, funding, variant, start, end, cost_factor=1):
                     entry_fee=quantity*entry*fee
                     position=dict(side=side,entry=entry,quantity=quantity,stop=stop,target=target,
                                   entry_fee=entry_fee,funding=0.0,time=when)
+                    if policy is not None:
+                        position.update(entry_regime=policy.regime(signal),branch=policy.branch(signal))
                     cash-=entry_fee; daily_net-=entry_fee
         if position:
             hit=barrier_exit(position['side'],position['entry'],position['stop'],position['target'],bar)

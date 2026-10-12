@@ -1,0 +1,60 @@
+{
+  "best_active_development": "pullback",
+  "historical_qualified": [],
+  "live_deployment": false,
+  "prospective_evidence": false,
+  "monthly_selection": [
+    {
+      "month": "2026-04-01",
+      "selected": "breakout20",
+      "eligible": [
+        "breakout20"
+      ],
+      "return_cost1_pct": -8.60333573603943,
+      "return_cost2_pct": -8.243076587597987
+    },
+    {
+      "month": "2026-05-01",
+      "selected": "cash",
+      "eligible": [],
+      "return_cost1_pct": 0.0,
+      "return_cost2_pct": 0.0
+    },
+    {
+      "month": "2026-06-01",
+      "selected": "cash",
+      "eligible": [],
+      "return_cost1_pct": 0.0,
+      "return_cost2_pct": 0.0
+    },
+    {
+      "month": "2026-07-01",
+      "selected": "cash",
+      "eligible": [],
+      "return_cost1_pct": 0.0,
+      "return_cost2_pct": 0.0
+    },
+    {
+      "month": "2026-08-01",
+      "selected": "cash",
+      "eligible": [],
+      "return_cost1_pct": 0.0,
+      "return_cost2_pct": 0.0
+    },
+    {
+      "month": "2026-09-01",
+      "selected": "breakout20",
+      "eligible": [
+        "breakout20",
+        "breakout40"
+      ],
+      "return_cost1_pct": -2.1645694653747105,
+      "return_cost2_pct": -2.6900652100797395
+    }
+  ],
+  "snapshot_sha256": {
+    "btc_15m.csv": "d70e52f45d0604e93deccb8fe3e86861f4c79c25728063c432aaf7594d67e800",
+    "funding.csv": "6c5acbc9446bb721ae96785bdea085527f2b33bb9169a4eafb7be2bc307b7e05"
+  },
+  "selection_rule": "Development doubled-cost return, then lower drawdown, then name; cash is a separate benchmark."
+}
